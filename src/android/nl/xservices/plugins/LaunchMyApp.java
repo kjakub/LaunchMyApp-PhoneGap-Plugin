@@ -15,7 +15,7 @@ public class LaunchMyApp extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     if (ACTION_CHECKINTENT.equalsIgnoreCase(action)) {
-      final Intent intent = ((CordovaInterface) this.webView.getContext()).getActivity().getIntent();
+      final Intent intent = getIntent();
       if (intent.getDataString() != null) {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, intent.getDataString()));
         intent.setData(null);
