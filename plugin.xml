@@ -13,15 +13,35 @@
 
   <license>MIT</license>
 
+  <preference name="URL_SCHEME" />
+
   <engines>
     <engine name="cordova" version=">=3.0.0"/>
   </engines>
-  
-  <asset src="www/android/LaunchMyApp.js" target="LaunchMyApp.js" />
 
+  <!-- ios -->
+  <platform name="ios">
+    <js-module src="www/ios/LaunchMyApp.js" name="LaunchMyApp">
+      <clobbers target="window.plugins.launchmyapp" />
+    </js-module>
+
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+      <array>
+        <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>$URL_SCHEME</string>
+          </array>
+        </dict>
+      </array>
+    </config-file>
+  </platform>
 
   <!-- android -->
   <platform name="android">
+    <js-module src="www/android/LaunchMyApp.js" name="LaunchMyApp">
+      <clobbers target="window.plugins.launchmyapp" />
+    </js-module>
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="LaunchMyApp">
@@ -31,6 +51,20 @@
 
     <source-file src="src/android/nl/xservices/plugins/LaunchMyApp.java" target-dir="src/nl/xservices/plugins"/>
 
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+    <activity android:name="com.appgyver.runtime.standalone.MainActivity" android:launchMode="singleTop" android:alwaysRetainTaskState="true">
+      <intent-filter>
+        <data android:scheme="$URL_SCHEME"/>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+      </intent-filter>
+    </activity>
+    </config-file>
+ 
+    
+    
+    
   </platform>
 
 </plugin>
